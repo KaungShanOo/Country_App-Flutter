@@ -1,15 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:get/instance_manager.dart';
 //import 'package:get/instance_manager.dart';
 import 'package:restapi/api/apiservice.dart';
 import 'package:restapi/model/detail.dart';
-import 'package:get/get.dart';
+//import 'package:get/get.dart';
 
 class DetailScreen extends StatelessWidget {
-  final ApiService apiService = Get.find();
+  final ApiService apiService;
   final String country_name;
-  DetailScreen(this.country_name);
+  DetailScreen(this.apiService,this.country_name);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +19,7 @@ class DetailScreen extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               Detail detail = snapshot.data![0];
-              return ListView(
+             return ListView(
                 children: [
                   Center(
                       child: Text('${detail.name}',
@@ -58,3 +57,4 @@ class DetailScreen extends StatelessWidget {
     );
   }
 }
+
