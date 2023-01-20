@@ -1,13 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
 import 'package:restapi/api/apiservice.dart';
 import 'package:restapi/model/country.dart';
 import 'package:dio/dio.dart';
 import 'package:restapi/screen/detail_screen.dart';
 
 class Home extends StatelessWidget {
-  ApiService apiService = ApiService(Dio());
+  ApiService apiService = Get.find();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,10 +32,7 @@ class Home extends StatelessWidget {
     return Card(
       child: ListTile(
         onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => DetailScreen(apiService,country.name)));
+              Get.to(DetailScreen(country.name));
         },
         leading: CachedNetworkImage(
           imageUrl: 'https://countryflagsapi.com/png/${country.alpha2Code}',
