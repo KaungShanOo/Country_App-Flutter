@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:restapi/api/apiservice.dart';
+import 'package:dio/dio.dart';
 
 void main() {
   runApp(const MyApp());
@@ -106,7 +108,9 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () {
+          ApiService(Dio());
+        },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
