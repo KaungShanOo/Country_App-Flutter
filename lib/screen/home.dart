@@ -4,14 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:restapi/api/apiservice.dart';
 import 'package:restapi/model/country.dart';
 import 'package:dio/dio.dart';
+import 'package:restapi/screen/detail_screen.dart';
 
 class Home extends StatelessWidget {
+  ApiService apiService = ApiService(Dio());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Countries List')),
       body: FutureBuilder<List<Country>>(
-          future: ApiService(Dio()).getCountries(),
+          future: apiService.getCountries(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               List<Country>? country = snapshot.data;
@@ -30,7 +32,10 @@ class Home extends StatelessWidget {
     return Card(
       child: ListTile(
         onTap: () {
-          //Get.to(DetailScreen(country.name));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => DetailScreen(apiService,country.name)));
         },
         leading: CachedNetworkImage(
           imageUrl: 'https://countryflagsapi.com/png/${country.alpha2Code}',

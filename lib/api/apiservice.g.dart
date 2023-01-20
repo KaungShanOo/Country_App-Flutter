@@ -45,29 +45,29 @@ class _ApiService implements ApiService {
     return value;
   }
 
-  RequestOptions newRequestOptions(Object? options) {
-    if (options is RequestOptions) {
-      return options as RequestOptions;
-    }
-    if (options is Options) {
-      return RequestOptions(
-        method: options.method,
-        sendTimeout: options.sendTimeout,
-        receiveTimeout: options.receiveTimeout,
-        extra: options.extra,
-        headers: options.headers,
-        responseType: options.responseType,
-        contentType: options.contentType.toString(),
-        validateStatus: options.validateStatus,
-        receiveDataWhenStatusError: options.receiveDataWhenStatusError,
-        followRedirects: options.followRedirects,
-        maxRedirects: options.maxRedirects,
-        requestEncoder: options.requestEncoder,
-        responseDecoder: options.responseDecoder,
-        path: '',
-      );
-    }
-    return RequestOptions(path: '');
+  @override
+  Future<List<Detail>> getDetail(name) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result =
+        await _dio.fetch<List<dynamic>>(_setStreamType<List<Detail>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'name/${name}?fullText=true',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    var value = _result.data!
+        .map((dynamic i) => Detail.fromJson(i as Map<String, dynamic>))
+        .toList();
+    return value;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
